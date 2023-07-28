@@ -5,7 +5,7 @@ import Fastify, { FastifyInstance } from "fastify"
 import formBody from "@fastify/formbody"
 import swagger from "@fastify/swagger"
 import view from "@fastify/view"
-import * as pug from "pug"
+import * as ejs from "ejs"
 import swaggerUi from "@fastify/swagger-ui"
 import fp from "fastify-plugin"
 import fastifyCors from "@fastify/cors"
@@ -52,10 +52,10 @@ async function main() {
 
   await fastify.register(view, {
     engine: {
-      pug: pug,
+      ejs: ejs,
     },
     root: path.join(__dirname, "views"),
-    viewExt: "pug",
+    viewExt: "ejs",
   })
 
   await fastify.register(formBody)
