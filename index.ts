@@ -4,10 +4,13 @@ import "./config/prisma"
 import Fastify, { FastifyInstance } from "fastify"
 import formBody from "@fastify/formbody"
 import swagger from "@fastify/swagger"
+import view from "@fastify/view"
+import * as pug from "pug"
 import swaggerUi from "@fastify/swagger-ui"
 import fp from "fastify-plugin"
 import fastifyCors from "@fastify/cors"
 import type { User } from "@prisma/client"
+import * as path from "path"
 
 declare module "fastify" {
   // eslint-disable-next-line no-unused-vars
@@ -45,6 +48,14 @@ const swaggerPlugin = fp(async (fastify: FastifyInstance) => {
 async function main() {
   const fastify = Fastify({
     logger: true,
+  })
+
+  await fastify.register(view, {
+    engine: {
+      pug: pug,
+    },
+    root: path.join(__dirname, "views"),
+    viewExt: "pug",
   })
 
   await fastify.register(formBody)
